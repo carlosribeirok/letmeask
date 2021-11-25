@@ -29,20 +29,19 @@ Antes de rodar o projeto, é preciso seguir com algumas etapas. Acesse e crie su
 - Em seguida, clique em "Adicionar projeto", desative o Google Analytics e crie seu projeto;
 - Acesse a página "Authentication"(Menu esquerdo). Clique em "Primeiros passos", selecione o Google, clique em "Ativar" e informe o seu e-mail;
 - Entre na página "Realtime Database"(Menu esquerdo). Clique em "Criar banco de dados", continue sem alterar nada e "Ative";
-
-Crie na raiz do projeto um arquivo `.env`, copie como está abaixo:
-```sh
-REACT_APP_API_KEY= "",
-REACT_APP_AUTO_DOMAIN= "",
-REACT_APP_DATABASE_URL= "",
-REACT_APP_PROJECT_ID= "",
-REACT_APP_STORAGE_BUCKET= "",
-REACT_APP_MESSAGING_SENDER_ID= "",
-REACT_APP_APP_ID= ""
-```
-
 - Acesse a página "Visão geral do projeto"(Menu esquerdo). Clique em </>(Web), entre com o nome do seu projeto. Em seguida "Registre seu app"; (Não marque a caixa "Firebase Hosting")
-- Copie toda a "const firebaseConfig" e preencha seu arquivo `.env` com essas respectivas váriaveis. 
+- Copie toda a "const firebaseConfig" e preencha as respectivas variáveis no arquivo `firebase.ts`. (src/services/firebase.ts) 
+```sh
+const firebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
+};
+```
 
 Por fim, precisamos configurar as regras do banco de dados.   
 - Entre novamente no "Realtime Database" e clique em "regras". Copie as linhas de código abaixo e substitua os valores.
