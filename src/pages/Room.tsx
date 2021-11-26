@@ -14,6 +14,8 @@ import logoImg from '../assets/images/logo.svg';
 import emptyQuestions from '../assets/images/empty-questions.svg';
 import '../styles/room.scss';
 
+import { AiOutlineArrowUp } from "react-icons/ai";
+
 type RoomParams = {
     id: string;
 }
@@ -70,6 +72,13 @@ export function Room() {
         }
     }
 
+    function ScrollTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }
+
     return (
         <div id="page-room">
             <header>
@@ -106,6 +115,8 @@ export function Room() {
                     </div>
                 </form>
                 
+                <button className="buttonScrollTop" onClick={ScrollTop}><AiOutlineArrowUp /></button>
+
                 <div className="question-list">
                     {questions.map(question => {
                         return (

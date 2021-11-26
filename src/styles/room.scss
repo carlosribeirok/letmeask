@@ -109,6 +109,20 @@
             }
         }
 
+        .buttonScrollTop {
+            position: fixed;
+            bottom: 80px;
+            right: 80px;
+            border: none;
+            outline: none;
+            background-color: #fefefe;
+            color: #737380;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 9px;
+            font-size: 18px;
+        }
+
         .question-list {
             margin-top: 32px;            
         }
