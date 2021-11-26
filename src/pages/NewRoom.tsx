@@ -8,9 +8,7 @@ import { Button } from '../components/Button';
 import { database } from '../services/firebase';
 import { useAuth } from '../hooks/useAuth';
 
-
 import '../styles/auth.scss';
-// import userEvent from '@testing-library/user-event';
 
 export function NewRoom() {
     
@@ -34,6 +32,7 @@ export function NewRoom() {
         })
 
         history.push(`/rooms/${firebaseRoom.key}`)
+        await window.location.replace(`http://localhost:3100/admin/rooms/${firebaseRoom.key}`);        
     }
 
     return (

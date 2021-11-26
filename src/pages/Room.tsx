@@ -11,6 +11,7 @@ import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
 
 import logoImg from '../assets/images/logo.svg';
+import emptyQuestions from '../assets/images/empty-questions.svg';
 import '../styles/room.scss';
 
 type RoomParams = {
@@ -19,6 +20,14 @@ type RoomParams = {
 
 export function Room() {
     
+    let showingAlert = false;
+    const interval = setInterval(() => {
+        document.title = showingAlert
+        ? 'Letmeask' : `Sala ${roomId}`;
+        
+        showingAlert = !showingAlert;
+    }, 15000);
+
     const { user } = useAuth();
     const params = useParams<RoomParams>();
     const [newQuestion, setNewQuestion] = useState('');
@@ -126,7 +135,14 @@ export function Room() {
                     })}
                 </div>
             </main>
+            <div className="room-noQuestions">
+            {questions.length === 0 && 
+                <div>
+                    <img src={emptyQuestions} alt="Sem perguntas" />
+                    <p className="noQuestions-Title">Nenhuma pergunta ainda . .</p>
+                    <p>Envie o código desta sala para seus amigos e comece a fazer perguntas</p>
+                </div>} 
+            </div>
         </div>
-
     );
 }

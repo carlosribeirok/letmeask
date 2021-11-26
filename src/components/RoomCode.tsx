@@ -18,7 +18,7 @@ export function RoomCode(props: RoomCodeProps) {
         return (
             swal({
                 icon: "success",
-                text: "Texto copiado com sucesso!",
+                text: "Código da sala copiado com sucesso!",
                 timer: 1000,
                 buttons: false,
                 content: (
@@ -28,13 +28,12 @@ export function RoomCode(props: RoomCodeProps) {
         )
     }
 
-
     return (
         <button className="room-code" onClick={() => { copyRoomCodeToClipBoard(); AlertaSucesso()}}>
             <div>
                 <img src={copyImg} alt="Copy room code" />
             </div>
-            <span>Sala #{props.code}</span>
+            <span>Sala: {props.code}</span>
         </button>
     )
 }

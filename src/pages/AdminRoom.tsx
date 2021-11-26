@@ -13,6 +13,8 @@ import deleteImg from '../assets/images/delete.svg';
 import checkImg from '../assets/images/check.svg';
 import answerImg from '../assets/images/answer.svg';
 
+import emptyQuestions from '../assets/images/empty-questions.svg';
+
 import '../styles/room.scss';
 
 type RoomParams = {
@@ -21,38 +23,95 @@ type RoomParams = {
 
 export function AdminRoom() {
     
+    let showingAlert = false;
+    const interval = setInterval(() => {
+        document.title = showingAlert
+        ? 'Letmeask' : `Sala Admin`;
+        
+        showingAlert = !showingAlert;
+    }, 15000);
+
+    const swal = require('@sweetalert/with-react');
+
     // const { user } = useAuth();
     const history = useHistory();
     const params = useParams<RoomParams>();
     const roomId = params.id;
     const { title, questions } = useRoom(roomId);
     
-    async function handleEndRoom() {
-        await database.ref(`rooms/${roomId}`).update({
-            endedAt: new Date(),
-        })
+    function handleEndRoom() {
 
-        history.push('/');
+        swal({
+            title: "Encerrar sala",
+            text: "Tem certeza que você deseja encerrar a sala?",
+            icon: 'error',
+            buttons: {
+              cancel: true,
+              delete: 'Sim, quero fechar'
+            }
+          }).then((result: any) => {
+              if(result) {
+                database.ref(`rooms/${roomId}`).update({
+                    endedAt: new Date(),
+                })
+        
+                history.push('/');
+              }
+          })
     }
 
-    async function handleDeleteQuestion(questionId: string) {
-        if(window.confirm('Tem certeza que você deseja excluir essa pergunta?')) {
-            await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
-        }
+    function handleDeleteQuestion(questionId: string) {
+        swal({
+            title: "Excluir pergunta",
+            text: "Tem certeza que você deseja excluir a pergunta?",
+            icon: 'error',
+            buttons: {
+              cancel: true,
+              delete: 'Excluir'
+            }
+          }).then((result: any) => {
+              if(result) {
+                database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
+              }
+          })
     }
 
     async function handleCheckQuestionAsAnswered(questionId: string) {
-        await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
-            isAnswered: true,
-        });
+        swal({
+            title: "Marcar como respondida",
+            text: "Tem certeza que esta pergunta já teve sua resposta?",
+            icon: 'warning',
+            buttons: {
+              cancel: true,
+              delete: 'Sim'
+            }
+          }).then((result: any) => {
+              if(result) {
+                database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+                    isAnswered: true,
+                });
+              }
+          })
     }
 
     async function handleHighlightQuestion(questionId: string) {
-        await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
-            isHighlighted: true,
-        });
+        swal({
+            title: "Marcar pergunta importante",
+            text: "Você gostaria de destacar esta pergunta?",
+            icon: 'info',
+            buttons: {
+              cancel: true,
+              delete: 'Marcar'
+            }
+          }).then((result: any) => {
+              if(result) {
+                database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+                    isHighlighted: true,
+                });
+              }
+          })
     }
-
+    
     return (
         <div id="page-room">
             <header>
@@ -70,7 +129,7 @@ export function AdminRoom() {
                 <div className="room-title">
                     <h1>{title}</h1>
                     { questions.length > 0 && <span>{questions.length} pergunta(s)</span> }
-                </div>
+                </div>                
 
                 <div className="question-list">
                     {questions.map(question => {
@@ -111,7 +170,14 @@ export function AdminRoom() {
                     })}
                 </div>
             </main>
+            <div className="room-noQuestions">
+            {questions.length === 0 && 
+                <div>
+                    <img src={emptyQuestions} alt="Sem perguntas" />
+                    <p className="noQuestions-Title">Nenhuma pergunta por aqui</p>
+                    <p>Envie o código desta sala para seus amigos e comece a responder perguntas</p>
+                </div>} 
+            </div>
         </div>
-
     );
 }
