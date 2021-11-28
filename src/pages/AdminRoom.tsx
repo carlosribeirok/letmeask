@@ -15,6 +15,8 @@ import answerImg from '../assets/images/answer.svg';
 
 import emptyQuestions from '../assets/images/empty-questions.svg';
 
+import Swal from 'sweetalert2'
+
 import '../styles/room.scss';
 
 type RoomParams = {
@@ -32,6 +34,7 @@ export function AdminRoom() {
     }, 15000);
 
     const swal = require('@sweetalert/with-react');
+    const Swal = require('sweetalert2')
 
     // const { user } = useAuth();
     const history = useHistory();
@@ -41,22 +44,27 @@ export function AdminRoom() {
     
     function handleEndRoom() {
 
-        swal({
-            title: "Encerrar sala",
-            text: "Tem certeza que você deseja encerrar a sala?",
+        Swal.fire({
+            title: 'Encerrar Sala',
+            text: "Tem certeza que deseja fechar a sala?",
             icon: 'error',
-            buttons: {
-              cancel: true,
-              delete: 'Sim, quero fechar'
-            }
-          }).then((result: any) => {
-              if(result) {
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, deletar!'
+          }).then((result:any) => {
+            if (result.isConfirmed) {
                 database.ref(`rooms/${roomId}`).update({
                     endedAt: new Date(),
                 })
-        
                 history.push('/');
-              }
+                
+                Swal.fire(
+                    'Sala Fechada!',
+                    'Sua sala foi encerrada.',
+                    'success'
+              )
+            }
           })
     }
 

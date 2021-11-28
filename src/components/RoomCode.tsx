@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2'
+
 import copyImg from '../assets/images/copy.svg';
 
 import '../styles/room-code.scss';
@@ -8,7 +10,7 @@ type RoomCodeProps = {
 
 export function RoomCode(props: RoomCodeProps) {
 
-    const swal = require('@sweetalert/with-react');
+    const Swal = require('sweetalert2')
 
     function copyRoomCodeToClipBoard() {
         navigator.clipboard.writeText(props.code)
@@ -16,14 +18,12 @@ export function RoomCode(props: RoomCodeProps) {
 
     function AlertaSucesso() {
         return (
-            swal({
-                icon: "success",
-                text: "Código da sala copiado com sucesso!",
-                timer: 1000,
-                buttons: false,
-                content: (
-                  <div></div>
-                )
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'O código da sala foi copiado!',
+                showConfirmButton: false,
+                timer: 1300
               })
         )
     }
