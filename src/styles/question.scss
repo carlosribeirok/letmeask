@@ -3,6 +3,7 @@
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
     padding: 24px;
+    margin-top: 0px;
 
     & + .question {
         margin: 8px 0 8px 0;
@@ -11,14 +12,20 @@
     &.highlighted {
         background: #f4f0ff;
         border: 1px solid #8354fd;
+        margin-bottom: 5px;
         
         footer .user-info span {
             color: #29292e;
         }
     }
+
+    &.highlighted + .highlighted {
+        margin-bottom: 8px;
+    }
     
     &.asnwered {
         background: #dbdcdd;
+        margin-top: 0px;
     }
 
     p {
