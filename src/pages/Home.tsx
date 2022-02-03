@@ -1,14 +1,21 @@
 import { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import illustrationImg from '../assets/images/illustration.svg';
-import logoImg from '../assets/images/logo.svg';
-import googleIconimg from '../assets/images/google-icon.svg';
-
-import { Button } from '../components/Button';
-import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
 
+import { useAuth } from '../hooks/useAuth';
+import usePersistedState from '../hooks/usePersistedState';
+
+import { Button } from '../components/Button';
+import { Tema } from '../components/Tema';
+
+import illustrationImg from '../assets/images/illustration.svg';
+import logoImg from '../assets/images/logo.svg';
+import logoLight from '../assets/images/logoLight.png';
+import googleIconimg from '../assets/images/google-icon.svg';
+
+import { DefaultTheme } from 'styled-components';
+import light from '../styles/themes/light';
 import '../styles/auth.scss';
 
 export function Home() {
@@ -16,6 +23,8 @@ export function Home() {
     const history = useHistory();
     const { user, signInWithGoogle  } = useAuth()
     const [roomCode, setRoomCode] = useState('');
+
+    const [ theme ] = usePersistedState<DefaultTheme>('theme', light);
 
     async function handleCreateRoom() {
         if(!user) {
@@ -28,7 +37,7 @@ export function Home() {
     async function handleJoinRoom(event: FormEvent) {
         event.preventDefault();
 
-        if(roomCode.trim() == '') {
+        if(roomCode.trim() === '') {
             return;
         }
         
@@ -48,6 +57,7 @@ export function Home() {
 
     return (
         <div id="page-auth">
+            <Tema />
             <aside>
                 <img src={illustrationImg} alt="ilustração simbolizando perguntas e respostas" />        
                 <strong>Crie salas de Q&amp;A ao-vivo</strong>
@@ -55,7 +65,7 @@ export function Home() {
             </aside>
             <main>
                 <div className="main-content">
-                    <img src={logoImg} alt="Letmeask" />
+                <img src={theme.title === 'dark' ? logoLight : logoImg} alt="Letmeask" />
                     <button className="create-room" onClick={handleCreateRoom}>
                         <img src={googleIconimg} alt="logo do Google" />
                         Crie sua sala com o Google

@@ -1,23 +1,28 @@
 import { useHistory, useParams } from 'react-router-dom';
 
+import { database } from '../services/firebase';
+
+import { useRoom } from '../hooks/useRoom';
+
 import { Button } from '../components/Button';
 import { RoomCode } from '../components/RoomCode';
 import { Question } from '../components/Question';
-
-// import { useAuth } from '../hooks/useAuth';
-import { useRoom } from '../hooks/useRoom';
-import { database } from '../services/firebase';
+import { Tema } from '../components/Tema';
 
 import logoImg from '../assets/images/logo.svg';
+import logoLight from '../assets/images/logoLight.png';
 import deleteImg from '../assets/images/delete.svg';
 import checkImg from '../assets/images/check.svg';
 import answerImg from '../assets/images/answer.svg';
-
 import emptyQuestions from '../assets/images/empty-questions.svg';
 
-import Swal from 'sweetalert2'
+import usePersistedState from '../hooks/usePersistedState';
 
+import { DefaultTheme } from 'styled-components';
+import light from '../styles/themes/light';
 import '../styles/room.scss';
+
+import { AiOutlineArrowUp } from "react-icons/ai";
 
 type RoomParams = {
     id: string;
@@ -25,6 +30,9 @@ type RoomParams = {
 
 export function AdminRoom() {
     
+    const swal = require('@sweetalert/with-react');
+    const Swal = require('sweetalert2')
+
     let showingAlert = false;
     const interval = setInterval(() => {
         document.title = showingAlert
@@ -33,15 +41,17 @@ export function AdminRoom() {
         showingAlert = !showingAlert;
     }, 15000);
 
-    const swal = require('@sweetalert/with-react');
-    const Swal = require('sweetalert2')
-
-    // const { user } = useAuth();
     const history = useHistory();
     const params = useParams<RoomParams>();
     const roomId = params.id;
     const { title, questions } = useRoom(roomId);
     
+    const [ theme ] = usePersistedState<DefaultTheme>('theme', light);
+
+    const style = {
+        display: 'none'
+    };
+
     function handleEndRoom() {
 
         Swal.fire({
@@ -51,7 +61,7 @@ export function AdminRoom() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Sim, deletar!'
+            confirmButtonText: 'Sim, Deletar!'
           }).then((result:any) => {
             if (result.isConfirmed) {
                 database.ref(`rooms/${roomId}`).update({
@@ -68,9 +78,16 @@ export function AdminRoom() {
           })
     }
 
+    function ScrollTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }
+
     function handleDeleteQuestion(questionId: string) {
         swal({
-            title: "Excluir pergunta",
+            title: "Excluir Pergunta",
             text: "Tem certeza que você deseja excluir a pergunta?",
             icon: 'error',
             buttons: {
@@ -86,8 +103,8 @@ export function AdminRoom() {
 
     async function handleCheckQuestionAsAnswered(questionId: string) {
         swal({
-            title: "Marcar como respondida",
-            text: "Tem certeza que esta pergunta já teve sua resposta?",
+            title: "Marcar Pergunta Como Respondida",
+            text: "Tem certeza que esta pergunta já teve resposta?",
             icon: 'warning',
             buttons: {
               cancel: true,
@@ -104,8 +121,8 @@ export function AdminRoom() {
 
     async function handleHighlightQuestion(questionId: string) {
         swal({
-            title: "Marcar pergunta importante",
-            text: "Você gostaria de destacar esta pergunta?",
+            title: "Destacar Pergunta Importante",
+            text: "Você gostaria de ressaltar esta pergunta no topo?",
             icon: 'info',
             buttons: {
               cancel: true,
@@ -122,10 +139,11 @@ export function AdminRoom() {
     
     return (
         <div id="page-room">
+            <div style={style}><Tema /></div>
             <header>
                 <div className="content">
                     <a className="home" href="http://localhost:3100">
-                        <img src={logoImg} alt="Letmeask" />
+                        <img src={theme.title === 'dark' ? logoLight : logoImg} alt="Letmeask" />
                     </a>
                     <div>
                         <RoomCode code={roomId}/>
@@ -139,6 +157,8 @@ export function AdminRoom() {
                     { questions.length > 0 && <span>{questions.length} pergunta(s)</span> }
                 </div>                
 
+                { questions.length > 5 && <button className="buttonScrollTop" onClick={ScrollTop}><AiOutlineArrowUp /></button> }
+                
                 <div className="question-isHighlighted">
                     {questions.map(question => {
                         if(question.isHighlighted){  
@@ -228,7 +248,7 @@ export function AdminRoom() {
                     <p className="noQuestions-Title">Nenhuma pergunta por aqui</p>
                     <p>Envie o código desta sala para seus amigos e comece a responder perguntas</p>
                 </div>} 
-            </div>
+            </div>            
         </div>
     );
 }

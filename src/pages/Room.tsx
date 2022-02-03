@@ -1,17 +1,23 @@
 import { FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Button } from '../components/Button';
-import { RoomCode } from '../components/RoomCode';
-import { Question } from '../components/Question';
+import { database } from '../services/firebase';
 
 import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
+import usePersistedState from '../hooks/usePersistedState';
 
-import { database } from '../services/firebase';
+import { Button } from '../components/Button';
+import { RoomCode } from '../components/RoomCode';
+import { Question } from '../components/Question';
+import { Tema } from '../components/Tema';
 
 import logoImg from '../assets/images/logo.svg';
+import logoLight from '../assets/images/logoLight.png';
 import emptyQuestions from '../assets/images/empty-questions.svg';
+
+import { DefaultTheme } from 'styled-components';
+import light from '../styles/themes/light';
 import '../styles/room.scss';
 
 import { AiOutlineArrowUp } from "react-icons/ai";
@@ -35,6 +41,12 @@ export function Room() {
     const [newQuestion, setNewQuestion] = useState('');
     const roomId = params.id;
     const { title, questions } = useRoom(roomId);
+
+    const [ theme ] = usePersistedState<DefaultTheme>('theme', light);
+
+    const style = {
+        display: 'none'
+    };
     
     async function handleSendQuestion(event: FormEvent) {
         event.preventDefault();
@@ -81,10 +93,11 @@ export function Room() {
 
     return (
         <div id="page-room">
+            <div style={style}><Tema /></div>
             <header>
                 <div className="content">
                     <a className="home" href="http://localhost:3100">
-                        <img src={logoImg} alt="Letmeask" />
+                        <img src={theme.title === 'dark' ? logoLight : logoImg} alt="Letmeask" />
                     </a>
                     <RoomCode code={roomId}/>
                 </div>
@@ -115,7 +128,7 @@ export function Room() {
                     </div>
                 </form>
                 
-                <button className="buttonScrollTop" onClick={ScrollTop}><AiOutlineArrowUp /></button>
+                { questions.length > 5 && <button className="buttonScrollTop" onClick={ScrollTop}><AiOutlineArrowUp /></button> }
 
                 <div className="question-isHighlighted">
                     {questions.map(question => {
@@ -185,7 +198,7 @@ export function Room() {
                     <p className="noQuestions-Title">Nenhuma pergunta ainda . .</p>
                     <p>Envie o código desta sala para seus amigos e comece a fazer perguntas</p>
                 </div>} 
-            </div>
+            </div>            
         </div>
     );
 }

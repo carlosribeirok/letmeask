@@ -1,5 +1,3 @@
-import Swal from 'sweetalert2'
-
 import copyImg from '../assets/images/copy.svg';
 
 import '../styles/room-code.scss';
