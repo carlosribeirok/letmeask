@@ -1,6 +1,6 @@
 # :busts_in_silhouette: Letmeask
 
-Toda pergunta tem uma resposta! **Do Bootcamp da Rocketseat,** aprenda e compartilhe conhecimento com outras pessoas. A aplicação foi projetada sobre uma relação direta entre admin(criador da sala) e usuário. Com o Letmeask suas perguntas são organizadas de uma maneira sistêmica. 
+Toda pergunta tem uma resposta! **Do Bootcamp da Rocketseat,** aprenda e compartilhe conhecimento com outras pessoas. A aplicação foi projetada sobre uma relação direta entre admin(criador da sala) e usuário. Com o Letmeask suas perguntas são organizadas de uma maneira sistêmica. Visualização do projeto disponível no [Figma].
 
 ## Tecnologias
 
@@ -88,3 +88,4 @@ Esse projeto foi construído sobre à licença MIT. Feito com o ❤️ por [Carl
 [Node]: <https://github.com/nodejs>
 [Firebase⠀]: <https://github.com/firebase/>
 [Firebase]: <https://firebase.google.com/>
+[Figma]: <https://www.figma.com/community/file/1009824839797878169>
