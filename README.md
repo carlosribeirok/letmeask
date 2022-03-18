@@ -8,7 +8,7 @@ Tecnologias utilizadas no projeto:
 
 - [React]
 - [Typescript]
-- [Node]
+- [Node (v14.17.5)]
 - [Firebase⠀]
 
 <img src = "https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />⠀⠀<img src = "https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />⠀⠀<img src = "https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />⠀⠀<img src = "https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black" /> 	
@@ -85,7 +85,7 @@ Esse projeto foi construído sobre à licença MIT. Feito com o ❤️ por [Carl
 [Carlos]: <https://github.com/carlosribeirok>
 [React]: <https://github.com/facebook/react>
 [Typescript]: <https://github.com/microsoft/TypeScript>
-[Node]: <https://github.com/nodejs>
+[Node (v14.17.5)]: <https://github.com/nodejs>
 [Firebase⠀]: <https://github.com/firebase/>
 [Firebase]: <https://firebase.google.com/>
 [Figma]: <https://www.figma.com/community/file/1009824839797878169>
